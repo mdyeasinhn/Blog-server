@@ -8,11 +8,11 @@ const userSchema = new Schema<IUser>(
     {
         name: {
             type: String,
-            required: [true, 'Name is required'],
+            required: [true, 'Name is required and should be a string'],
         },
         email: {
             type: String,
-            required: [true, 'Please provide your email'],
+            required: [true, 'Please provide a valid email address'],
             unique: true,
             validate: {
                 validator: function (value: string) {
@@ -46,7 +46,7 @@ const userSchema = new Schema<IUser>(
 
 userSchema.pre('save', async function (next) {
     // eslint-disable-next-line @typescript-eslint/no-this-alias
-    const user = this
+    const user = this;
 
     // hashing password and save into DB    
     if (user.isModified('password')) {

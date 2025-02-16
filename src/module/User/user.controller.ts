@@ -1,18 +1,23 @@
 import { StatusCodes } from 'http-status-codes'
 import catchAsync from '../../utils/catchAsync'
 import sendResponse from '../../utils/sendResponse'
-import { userServices } from './user.service'
+import { userServices } from './user.services'
 
 
 const createUser = catchAsync(async (req, res) => {
   const payload = req.body
   const result = await userServices.createUser(payload)
 
+  const data = {
+    _id: result._id,
+    name : result.name,
+    email : result.email
+  }
   sendResponse(res, {
     success: true,
     statusCode: StatusCodes.CREATED,
-    message: 'User has been created',
-    data: result,
+    message: 'User is created successfully',
+    data: data,
   })
 })
 
@@ -20,7 +25,7 @@ const getUsers = catchAsync(async (req, res) => {
   const result = await userServices.getUsers()
   sendResponse(res, {
     statusCode: StatusCodes.OK,
-    message: 'User getting succesfully',
+    message: 'Users getting succesfully',
     data: result,
   })
 })
@@ -64,7 +69,6 @@ const blockUser = catchAsync(async (req, res) => {
     success: true,
     statusCode: StatusCodes.OK,
     message: 'User blocked successfully',
-    // data: {},
   })
 })
 
